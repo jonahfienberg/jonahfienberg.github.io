@@ -1,0 +1,185 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Gloock&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif&family=Schibsted+Grotesk:wght@400;600;700&display=swap"
+    />
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('theme');
+        if (t) document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="site-header wrap">
+      <a class="mark" href={`${base}/`} aria-label="Home">
+        <span class="monogram">JF</span>
+        <span class="name">Jonah Fienberg</span>
+      </a>
+      <nav class="mono">
+        <a href={`${base}/#work`}>Work</a>
+        <a href={`${base}/#about`}>About</a>
+        <a href="https://github.com/jonahfienberg" rel="me">GitHub ↗</a>
+        <button class="theme-toggle" type="button" aria-label="Switch colour theme">
+          <span aria-hidden="true">◐</span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer wrap">
+      <div class="footer-big">Say hello.</div>
+      <div class="footer-row mono">
+        <!-- TODO(Jonah): which email should be public? -->
+        <a href="mailto:hello@example.com">Email</a>
+        <a href="https://github.com/jonahfienberg">GitHub</a>
+        <!-- TODO(Jonah): add your LinkedIn URL -->
+        <a href="https://www.linkedin.com/">LinkedIn</a>
+        <span class="footer-note">Built with Astro · {new Date().getFullYear()}</span>
+      </div>
+    </footer>
+
+    <script is:inline>
+      document.querySelector('.theme-toggle')?.addEventListener('click', () => {
+        const root = document.documentElement;
+        const dark =
+          root.dataset.theme === 'dark' ||
+          (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+        const next = dark ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem('theme', next);
+        } catch {}
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+  .mark {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .monogram {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-size: 15px;
+    transition: background 0.25s;
+  }
+  .mark:hover .monogram {
+    background: var(--accent);
+  }
+  .name {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 2.5vw, 28px);
+  }
+  nav a {
+    text-decoration: none;
+    color: var(--ink-2);
+    transition: color 0.2s;
+  }
+  nav a:hover {
+    color: var(--accent);
+  }
+  .theme-toggle {
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .site-footer {
+    margin-top: clamp(80px, 12vw, 160px);
+    padding-bottom: 40px;
+    border-top: 1px solid var(--rule);
+    padding-top: 40px;
+  }
+  .footer-big {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 11vw, 150px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+  }
+  .footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    color: var(--ink-2);
+  }
+  .footer-row a {
+    text-decoration: none;
+  }
+  .footer-row a:hover {
+    color: var(--accent);
+  }
+  .footer-note {
+    margin-left: auto;
+  }
+
+  @media (max-width: 640px) {
+    .name {
+      display: none;
+    }
+    .footer-note {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+</style>

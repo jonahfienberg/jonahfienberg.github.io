@@ -1,0 +1,13 @@
+---
+import PhoneScreened from './PhoneScreened.astro';
+import PhoneIntake from './PhoneIntake.astro';
+
+interface Props {
+  id: string;
+}
+
+const phones: Record<string, any> = { screened: PhoneScreened, intake: PhoneIntake };
+const Mock = phones[Astro.props.id];
+---
+
+{Mock && <Mock />}

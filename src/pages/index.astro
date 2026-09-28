@@ -1,0 +1,371 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Phone from '../components/Phone.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<Base
+  title="Jonah Fienberg"
+  description="Software I designed and built myself: what each project does, why I made it and how it works."
+>
+  <section class="hero wrap">
+    <p class="mono kicker rise" style="--i:0">Selected work · 2026</p>
+    <!-- TODO(Jonah): this headline and the paragraph under it are your first impression. Make them sound like you. -->
+    <h1 class="rise" style="--i:1">
+      I build software for problems I <em>actually have</em>.
+    </h1>
+    <div class="hero-foot">
+      <p class="lede rise" style="--i:2">
+        Each project here started as something I wanted for myself, and I kept working on it until
+        other people could use it too. Below: what each one does, why I made it and how it works.
+      </p>
+      <a class="down mono rise" style="--i:3" href="#work">
+        <span>{projects.length} projects</span>
+        <span class="arrow">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="work" class="work wrap">
+    {
+      projects.map((p, i) => (
+        <article
+          class="project rise"
+          style={`--i:${i + 3};--p-bg:${p.data.theme.bg};--p-fg:${p.data.theme.fg};--p-accent:${p.data.theme.accent}`}
+        >
+          <a class="cover" href={`${base}/work/${p.id}/`} aria-label={`${p.data.title}: read more`}>
+            <span class="num">{pad(i + 1)}</span>
+            <div class="phone-slot">
+              <Phone id={p.id} />
+            </div>
+          </a>
+          <div class="info">
+            <div class="mono meta">
+              <span>{pad(i + 1)}</span>
+              <span>{p.data.year}</span>
+              <span class:list={['status', { live: p.data.liveUrl }]}>
+                {p.data.liveUrl ? 'Live' : 'Demo coming soon'}
+              </span>
+            </div>
+            <h2>
+              <a href={`${base}/work/${p.id}/`}>{p.data.title}</a>
+            </h2>
+            <p class="tagline">{p.data.tagline}</p>
+            <p class="summary">{p.data.summary}</p>
+            <ul class="stack mono">
+              {p.data.stack.map((s) => (
+                <li>{s}</li>
+              ))}
+            </ul>
+            <div class="actions">
+              <a class="btn primary" href={`${base}/work/${p.id}/`}>
+                How it works <span>→</span>
+              </a>
+              {p.data.liveUrl && (
+                <a class="btn" href={p.data.liveUrl}>
+                  Try it <span>↗</span>
+                </a>
+              )}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section id="about" class="about wrap">
+    <h2 class="mono">About</h2>
+    <!-- TODO(Jonah): replace with your real bio: school, year, what you're recruiting for, what you care about. -->
+    <div class="about-body">
+      <p class="about-lead">
+        I'm Jonah. I study <mark>[your school &amp; major]</mark> and I'm interested in
+        <mark>[the roles you're recruiting for]</mark>.
+      </p>
+      <p>
+        I like taking an everyday annoyance, like forgetting which films I liked more or how hard it
+        is to log a meal, and turning it into something that works for me. I care about the details
+        most people skip: what happens offline, what happens when a free model is overloaded,
+        what a number on screen actually means.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-top: clamp(40px, 9vw, 120px);
+    padding-bottom: clamp(56px, 9vw, 120px);
+  }
+  .kicker {
+    color: var(--ink-2);
+    margin: 0 0 24px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(46px, 8.6vw, 124px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    margin: 0;
+    max-width: 13ch;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .hero-foot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    margin-top: clamp(32px, 5vw, 56px);
+    border-top: 1px solid var(--rule);
+    padding-top: 24px;
+  }
+  .lede {
+    max-width: 46ch;
+    margin: 0;
+    font-size: clamp(17px, 1.6vw, 20px);
+    color: var(--ink-2);
+  }
+  .down {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+  .arrow {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    font-size: 16px;
+    transition: all 0.25s;
+  }
+  .down:hover .arrow {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
+    transform: translateY(4px);
+  }
+
+  .work {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(72px, 10vw, 140px);
+  }
+  .project {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: center;
+  }
+  .project:nth-child(even) .cover {
+    order: 2;
+  }
+  .cover {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 5 / 4.4;
+    border-radius: 6px;
+    background: var(--p-bg);
+    overflow: hidden;
+    text-decoration: none;
+    isolation: isolate;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(
+      circle at 70% 30%,
+      color-mix(in srgb, var(--p-accent) 32%, transparent),
+      transparent 60%
+    );
+  }
+  .num {
+    position: absolute;
+    left: 20px;
+    bottom: -0.16em;
+    z-index: -1;
+    font-family: var(--font-display);
+    font-size: clamp(140px, 22vw, 300px);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--p-fg) 22%, transparent);
+  }
+  .phone-slot {
+    transform: rotate(-5deg) translateY(4%);
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .project:nth-child(even) .phone-slot {
+    transform: rotate(5deg) translateY(4%);
+  }
+  .cover:hover .phone-slot {
+    transform: rotate(0deg) translateY(0) scale(1.03);
+  }
+
+  .meta {
+    display: flex;
+    gap: 16px;
+    color: var(--ink-2);
+    margin-bottom: 18px;
+  }
+  .status::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-right: 7px;
+    vertical-align: 1px;
+    background: var(--rule);
+  }
+  .status.live::before {
+    background: #3aa55d;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(48px, 6.4vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin: 0 0 14px;
+  }
+  h2 a {
+    text-decoration: none;
+    background: linear-gradient(var(--accent), var(--accent)) 0 92% / 0 3px no-repeat;
+    transition: background-size 0.35s;
+  }
+  h2 a:hover {
+    background-size: 100% 3px;
+  }
+  .tagline {
+    font-size: clamp(19px, 1.9vw, 23px);
+    line-height: 1.35;
+    margin: 0 0 14px;
+    font-weight: 500;
+  }
+  .summary {
+    color: var(--ink-2);
+    margin: 0 0 22px;
+    max-width: 52ch;
+  }
+  .stack {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .stack li {
+    font-size: 11px;
+    border: 1px solid var(--rule);
+    border-radius: 99px;
+    padding: 5px 10px;
+    color: var(--ink-2);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .btn {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 12px 20px;
+    border-radius: 99px;
+    border: 1px solid var(--ink);
+    transition: all 0.2s;
+  }
+  .btn span {
+    transition: transform 0.2s;
+  }
+  .btn:hover span {
+    transform: translateX(3px);
+  }
+  .btn.primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn.primary:hover,
+  .btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
+  }
+
+  .about {
+    margin-top: clamp(96px, 14vw, 180px);
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 32px;
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+  }
+  .about h2 {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    margin: 6px 0 0;
+    color: var(--ink-2);
+  }
+  .about-body {
+    max-width: 60ch;
+  }
+  .about-lead {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.2vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+  }
+  .about-body p:not(.about-lead) {
+    color: var(--ink-2);
+    font-size: 18px;
+  }
+  mark {
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+    color: inherit;
+    padding: 0 4px;
+  }
+
+  @media (max-width: 860px) {
+    .project {
+      grid-template-columns: 1fr;
+    }
+    .project:nth-child(even) .cover {
+      order: 0;
+    }
+    .cover {
+      aspect-ratio: 4 / 4.2;
+    }
+    .about {
+      grid-template-columns: 1fr;
+    }
+    .hero-foot {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  @media (max-width: 420px) {
+    .phone-slot {
+      scale: 0.85;
+    }
+  }
+</style>
