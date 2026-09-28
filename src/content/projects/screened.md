@@ -1,7 +1,7 @@
 ---
 title: Screened
 tagline: Rank every film you watch by comparing it to the ones you've already seen.
-summary: A film diary that gets its scores from head-to-head comparisons, not stars you pick on the spot, then uses those scores to suggest what to watch next.
+summary: A film diary that gets its scores from head-to-head comparisons, then uses those scores to suggest what to watch next.
 order: 1
 year: "2026"
 role: "Solo: design and engineering"
@@ -13,28 +13,16 @@ theme:
   accent: "#c98a46"
 ---
 
-<!-- TODO(Jonah): rewrite this section in your own words. It's the part recruiters read most closely. -->
-
 ## Why I built it
 
-Star ratings have always felt broken to me. I'd give a film four stars in March, give a
-different one four stars in June, and have no idea which I actually liked more. Beli gets
-this right for restaurants: you don't pick a number, you compare the new place with ones
-you've already been to, and the ranking produces the scores. I wanted that for films.
+I was frustrated with the current apps on the market for rating and organizing movies. Inspired by the popular restaurant review app Beli, I wanted to create a system where each film was ranked in comparison to movies I'd already watched, creating a more accurate and fun rating system. I also wanted to be able to utilize my rankings and preferences to identify new movies that I am more likely to enjoy.
 
 ## How it works
 
 **You compare instead of rating.** After a film, you say whether you loved it, thought it was
-fine, or didn't like it. Then Screened asks a few quick questions: *was it better or worse
-than this one?* Each answer halves the range of places it could go (a binary search),
-so even with a hundred films you answer about seven questions.
+fine, or didn't like it. Then Screened asks a few quick questions, using a binary comparison to narrow down the "real" ranking of that movie.
 
-**Scores come from where a film ends up in the ranking.** Each tier has a score range: *loved* runs 7.0–10, *fine*
-4.0–6.9, *didn't like* 0–3.9. A film's score is set by where it sits within its tier, so
-scores stay consistent with each other as the list grows.
-
-**No scores until there's enough to compare.** The first ten films are only put in order.
-Scores appear together once there are enough films for them to mean something.
+**No scores until there's enough to compare.** Scores appear after the user enters 10 films, giving the algorithm enough to work with.
 
 **Suggestions come from your taste as a whole.** Films you scored above 7.5 build a
 profile of your strongest genres, and each genre gets a shelf of well-regarded films you
@@ -42,15 +30,12 @@ haven't logged. The shelves update as you rank more.
 
 ## Decisions worth noting
 
-- **Your data stays on your device.** Everything lives in the browser's IndexedDB, so the app
-  works offline and installs to a phone's home screen. There's no account and no server
-  holding your data.
-- **Backups are optional.** A snapshot can be saved to a private GitHub Gist, so a
-  cleared browser doesn't cost you your list.
-- **Settings are stored twice.** Safari can clear localStorage and IndexedDB separately,
-  so settings are saved in both and whichever survives restores the other.
+- **Your data stays on your device.** Films are stored in the browser, so the app works
+  offline and installs to your phone's home screen, with no account or server holding your data.
+- **Backups are optional.** Your list can be saved to a private GitHub Gist, so clearing your
+  browser doesn't cost you your rankings.
 
 ## What's next
 
-Sharing a ranked list with friends, and comparing two people's tastes to pick a film
-you'll both like.
+Sharing a ranked list with friends, and adding a "sync" feature that compares people's tastes to pick a film
+everyone will like.
