@@ -5,6 +5,7 @@ summary: A film diary that gets its scores from head-to-head comparisons, not st
 order: 1
 year: "2026"
 role: "Solo: design and engineering"
+liveUrl: "https://screened-films.vercel.app"
 stack: [React, TypeScript, Vite, IndexedDB (Dexie), PWA, TMDB API]
 theme:
   bg: "#0d0d0d"
