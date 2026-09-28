@@ -28,13 +28,6 @@ fine, or didn't like it. Then Screened asks a few quick questions, using a binar
 profile of your strongest genres, and each genre gets a shelf of well-regarded films you
 haven't logged. The shelves update as you rank more.
 
-## Decisions worth noting
-
-- **Your data stays on your device.** Films are stored in the browser, so the app works
-  offline and installs to your phone's home screen, with no account or server holding your data.
-- **Backups are optional.** Your list can be saved to a private GitHub Gist, so clearing your
-  browser doesn't cost you your rankings.
-
 ## What's next
 
 Sharing a ranked list with friends, and adding a "sync" feature that compares people's tastes to pick a film
