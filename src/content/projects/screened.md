@@ -4,6 +4,8 @@ tagline: Rank every film you watch by comparing it to the ones you've already se
 summary: A film diary that creates rankings from head-to-head comparisons, then uses those scores to generate better recommendations. 
 order: 1
 year: "2026"
+role: "Solo: design and engineering"
+stack: [React, TypeScript, Vite, IndexedDB (Dexie), PWA, TMDB API]
 liveUrl: "https://screened-films.vercel.app"
 theme:
   bg: "#0d0d0d"
