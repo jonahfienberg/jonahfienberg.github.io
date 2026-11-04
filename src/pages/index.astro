@@ -13,17 +13,10 @@ const pad = (n: number) => String(n).padStart(2, '0');
   description="Software I designed and built myself: what each project does, why I made it and how it works."
 >
   <section class="hero wrap">
-    <p class="mono kicker rise" style="--i:0">Selected work · 2026</p>
-    <!-- TODO(Jonah): this headline and the paragraph under it are your first impression. Make them sound like you. -->
-    <h1 class="rise" style="--i:1">
-      I build software for problems I <em>actually have</em>.
-    </h1>
+    <p class="mono kicker rise" style="--i:0">2026</p>
+    <h1 class="rise" style="--i:1">Selected work.</h1>
     <div class="hero-foot">
-      <p class="lede rise" style="--i:2">
-        Each project here started as something I wanted for myself, and I kept working on it until
-        other people could use it too. Below: what each one does, why I made it and how it works.
-      </p>
-      <a class="down mono rise" style="--i:3" href="#work">
+      <a class="down mono rise" style="--i:2" href="#work">
         <span>{projects.length} projects</span>
         <span class="arrow">↓</span>
       </a>
@@ -120,17 +113,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .hero-foot {
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 32px;
     margin-top: clamp(32px, 5vw, 56px);
     border-top: 1px solid var(--rule);
     padding-top: 24px;
-  }
-  .lede {
-    max-width: 46ch;
-    margin: 0;
-    font-size: clamp(17px, 1.6vw, 20px);
-    color: var(--ink-2);
   }
   .down {
     display: flex;
